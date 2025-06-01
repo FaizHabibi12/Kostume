@@ -14,6 +14,7 @@ The Costume Rental Application is a web application that allows users to rent an
 costume-rental-app
 ├── src
 │   ├── app.ts
+│   ├── index.ts
 │   ├── controllers
 │   ├── routes
 │   ├── middleware
