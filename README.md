@@ -52,7 +52,7 @@ costume-rental-app
 ## Running the Application
 To start the application, run:
 ```
-npm start
+npm run dev
 ```
 
 ## API Endpoints
