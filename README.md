@@ -1,4 +1,4 @@
-# Costume Rental Application
+# Kostumee Rental Application
 
 ## Overview
 The Costume Rental Application is a web application that allows users to rent and review costumes. It provides functionalities for user authentication, costume management, rental processing, and review submission.
