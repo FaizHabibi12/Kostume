@@ -1,26 +1,20 @@
 import { Request, Response } from 'express';
-import RentalService from '../services/rentalService';
+import rentalService from '../services/rentalService';
 
 class RentalController {
-  private rentalService: RentalService;
-
-  constructor() {
-    this.rentalService = new RentalService();
-  }
-
   public createRental = async (req: Request, res: Response): Promise<void> => {
     try {
       const rentalData = req.body;
-      const rental = await this.rentalService.createRental(rentalData);
+      const rental = await rentalService.createRental(rentalData);
       res.status(201).json(rental);
     } catch (error) {
       res.status(500).json({ message: 'Error creating rental', error });
     }
   };
 
-  public getRentals = async (req: Request, res: Response): Promise<void> => {
+  public getRentals = async (_req: Request, res: Response): Promise<void> => {
     try {
-      const rentals = await this.rentalService.getRentals();
+      const rentals = await rentalService.getRentals();
       res.status(200).json(rentals);
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving rentals', error });
@@ -30,7 +24,7 @@ class RentalController {
   public getRentalById = async (req: Request, res: Response): Promise<void> => {
     try {
       const rentalId = req.params.id;
-      const rental = await this.rentalService.getRentalById(rentalId);
+      const rental = await rentalService.getRentalById(rentalId);
       if (rental) {
         res.status(200).json(rental);
       } else {
@@ -45,7 +39,7 @@ class RentalController {
     try {
       const rentalId = req.params.id;
       const rentalData = req.body;
-      const updatedRental = await this.rentalService.updateRental(rentalId, rentalData);
+      const updatedRental = await rentalService.updateRental(rentalId, rentalData);
       if (updatedRental) {
         res.status(200).json(updatedRental);
       } else {
@@ -59,7 +53,7 @@ class RentalController {
   public deleteRental = async (req: Request, res: Response): Promise<void> => {
     try {
       const rentalId = req.params.id;
-      const deletedRental = await this.rentalService.deleteRental(rentalId);
+      const deletedRental = await rentalService.deleteRental(rentalId);
       if (deletedRental) {
         res.status(204).send();
       } else {

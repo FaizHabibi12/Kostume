@@ -1,28 +1,32 @@
 import { Request, Response } from 'express';
-import { AuthService } from '../services/authService';
+import { authService } from '../services/authService';
 
 class AuthController {
-  private authService: AuthService;
-
-  constructor() {
-    this.authService = new AuthService();
-  }
-
   async register(req: Request, res: Response) {
     try {
-      const user = await this.authService.register(req.body);
+      const { email, password, name } = req.body;
+      const user = await authService.register({ email, password, name });
       res.status(201).json(user);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      if (error instanceof Error) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(400).json({ error: 'Unknown error' });
+      }
     }
   }
 
   async login(req: Request, res: Response) {
     try {
-      const token = await this.authService.login(req.body);
+      const { email, password } = req.body;
+      const token = await authService.login({ email, password });
       res.status(200).json({ token });
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      if (error instanceof Error) {
+        res.status(401).json({ error: error.message });
+      } else {
+        res.status(401).json({ error: 'Unknown error' });
+      }
     }
   }
 }

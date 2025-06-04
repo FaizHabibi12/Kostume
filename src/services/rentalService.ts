@@ -14,15 +14,17 @@ class RentalService {
     endDate: Date;
     totalPrice: number;
   }) {
-    return await this.prisma.rental.create({
-      data,
-    });
+    return await this.prisma.rental.create({ data });
   }
 
   async getRentalById(id: string) {
     return await this.prisma.rental.findUnique({
       where: { id },
     });
+  }
+
+  async getRentals() {
+    return await this.prisma.rental.findMany();
   }
 
   async getRentalsByUserId(userId: string) {

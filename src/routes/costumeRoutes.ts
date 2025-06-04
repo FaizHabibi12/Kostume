@@ -1,13 +1,13 @@
-import { Router } from 'express';
+import express from 'express';
 import { CostumeController } from '../controllers/costumeController';
 
-const router = Router();
-const costumeController = new CostumeController();
+const router = express.Router();
+const controller = new CostumeController();
 
-router.post('/', costumeController.createCostume);
-router.get('/', costumeController.getAllCostumes);
-router.get('/:id', costumeController.getCostumeById);
-router.put('/:id', costumeController.updateCostume);
-router.delete('/:id', costumeController.deleteCostume);
+router.post('/', controller.createCostume);
+router.get('/', controller.getCostumes);
+router.get('/:id', controller.getCostumeById);
+router.put('/:id', controller.updateCostume);
+router.delete('/:id', controller.deleteCostume);
 
 export const costumeRoutes = router;

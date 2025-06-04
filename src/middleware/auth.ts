@@ -1,6 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
+// Extend Express Request interface to include 'user'
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
+
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {

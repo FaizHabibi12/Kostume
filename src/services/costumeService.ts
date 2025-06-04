@@ -1,36 +1,32 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '@prisma/client';
 
 class CostumeService {
-  private prisma = new PrismaClient();
-
   async createCostume(data: any) {
-    return await this.prisma.costume.create({
-      data,
-    });
+    return await prisma.costume.create({ data });
   }
 
   async getCostumeById(id: string) {
-    return await this.prisma.costume.findUnique({
+    return await prisma.costume.findUnique({
       where: { id },
     });
   }
 
   async updateCostume(id: string, data: any) {
-    return await this.prisma.costume.update({
+    return await prisma.costume.update({
       where: { id },
       data,
     });
   }
 
   async deleteCostume(id: string) {
-    return await this.prisma.costume.delete({
+    return await prisma.costume.delete({
       where: { id },
     });
   }
 
-  async getAllCostumes() {
-    return await this.prisma.costume.findMany();
+  async getCostumes() {
+    return await prisma.costume.findMany();
   }
 }
 
-export default new CostumeService();
+export const costumeService = new CostumeService();
