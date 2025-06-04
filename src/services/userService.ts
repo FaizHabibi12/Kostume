@@ -1,25 +1,39 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma';
+
+const prisma = new PrismaClient();
 
 export class UserService {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
+  async getUserById(userId: string) {
+    return await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        costumes: true,
+        rentals: true,
+        reviews: true,
+      },
+    });
   }
 
-  public async getUserById(userId: string): Promise<User | null> {
-    return await this.prisma.user.findUnique({
+  async updateUser(userId: string, data: { name?: string; email?: string; password?: string }) {
+    return await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+  }
+
+  async deleteUser(userId: string) {
+    return await prisma.user.delete({
       where: { id: userId },
     });
   }
 
-  public async updateUser(
-    userId: string,
-    data: Partial<Pick<User, 'name' | 'email' | 'password' | 'phone' | 'address'>>
-  ): Promise<User> {
-    return await this.prisma.user.update({
-      where: { id: userId },
-      data,
+  async getAllUsers() {
+    return await prisma.user.findMany({
+      include: {
+        costumes: true,
+        rentals: true,
+        reviews: true,
+      },
     });
   }
 }

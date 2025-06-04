@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
-import { costumeService } from '../services/costumeService';
+import { CostumeService } from '../services/costumeService';
+
+const costumeService = new CostumeService();
 
 export class CostumeController {
   public async createCostume(req: Request, res: Response): Promise<void> {
@@ -14,18 +16,31 @@ export class CostumeController {
 
   public async getCostumes(req: Request, res: Response): Promise<void> {
     try {
-      const costumes = await costumeService.getCostumes();
+      const costumes = await costumeService.getAllCostumes();
       res.status(200).json(costumes);
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving costumes', error });
     }
   }
 
+  public async getCostumeById(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const costume = await costumeService.getCostumeById(id);
+      if (!costume) {
+        res.status(404).json({ message: 'Costume not found' });
+        return;
+      }
+      res.status(200).json(costume);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving costume', error });
+    }
+  }
+
   public async updateCostume(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const costumeData = req.body;
-      const updatedCostume = await costumeService.updateCostume(id, costumeData);
+      const updatedCostume = await costumeService.updateCostume(id, req.body);
       res.status(200).json(updatedCostume);
     } catch (error) {
       res.status(500).json({ message: 'Error updating costume', error });
@@ -39,16 +54,6 @@ export class CostumeController {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: 'Error deleting costume', error });
-    }
-  }
-
-  public async getCostumeById(req: Request, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const costume = await costumeService.getCostumeById(id);
-      res.status(200).json(costume);
-    } catch (error) {
-      res.status(500).json({ message: 'Error retrieving costume', error });
     }
   }
 }
